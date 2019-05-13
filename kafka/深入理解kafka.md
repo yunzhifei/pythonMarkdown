@@ -24,6 +24,39 @@
 
 ​		因为所有的生产请求和消费请求都必须发送到首领副本，客户端就必须知道每一个分区的首领副本对应的broker。通过发送元数据请求来获取这些元数据信息。
 
+![image-20190506115645330](/Users/yunzhifei/Library/Application Support/typora-user-images/image-20190506115645330.png)
+
+![image-20190506115730247](/Users/yunzhifei/Library/Application Support/typora-user-images/image-20190506115730247.png)
+
+​	生产请求：副本首领的broker收到消息请求以后，会首先做些校验，比如写入权限和ack参数有效性，Linux系统会首先写入到系统缓存中，并不保证何时刷新到磁盘上的。如果acks参数是all请求会被放入到炼狱缓冲区中。直到所有的副本都收到消息，才返回给客户端。
+
+​	获取请求：客户端向broker请求主题分区中的特定偏移量的消息。客户端可以指定在broker从一个分区中最多返回多少数据。因为客户端需要给broker返回的数据分配足够的内存。kafka使用零拷贝技术来给客户端发送消息，就是从Linux文件系统缓存直接到网络通道。而且大部分客户端只可以获取到已经写入到同步副本的消息。
+
+​	对于获取数据的请求，是数据量和时间一个条件满足就可以获取消息
+
 ## 	kafka存储细节
 
-​	
+​	kafka 的基本存储单位是分区。
+
+# kafka 的分区分配
+
+![image-20190506143225200](/Users/yunzhifei/Library/Application Support/typora-user-images/image-20190506143225200.png)
+
+# kafka的文件管理
+
+kafka不会一直保留文件。管理员可以规定数据被删除之前可以保留多长时间，或者是最多保留多大的数据。
+
+​	为了提升查找的效率，kafka把文件分成多个段。默认是一个G或者是一周的数据。当前写入的片段成为活跃片段。是不可以被删除。
+
+# kafka文件格式
+
+![image-20190507170910712](/Users/yunzhifei/Library/Application Support/typora-user-images/image-20190507170910712.png)
+
+文件格式如果是压缩过的，会有更好的传输存储性能。
+
+# kafka 索引
+
+kafka给每一个分区维护了索引。索引也被分段了。删除消息的时候也会删除对应的索引。
+
+# kafka清理
+
