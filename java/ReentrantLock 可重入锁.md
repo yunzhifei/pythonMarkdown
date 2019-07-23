@@ -107,3 +107,4 @@ c lock.unlock() //释放锁  3
     这里就是唤醒下一个节点的逻辑了。唤醒下一个节点的主要逻辑就是清空头结点，然后删除后续链表中的无效节点，然后唤醒下一个有效节点即可。
 
 14. 最后waitStatus说明![image-20190718160314487](/Users/yunzhifei/Library/Application Support/typora-user-images/image-20190718160314487.png)
+
