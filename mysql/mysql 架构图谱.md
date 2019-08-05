@@ -19,7 +19,7 @@
     	2. 锁的行为和顺序是和存储引擎有关的。
 	6. 事务日志
     	1. 事务日志先写入到磁盘然后修改的数据慢慢刷新会到磁盘就可以了，预写式日志。这样修改数据就需要写两次磁盘了。不过日志是追加方式顺序写磁盘很快的。
-    	2. ![MySQL修改数据过程](/Users/yunzhifei/Documents/pythonMarkdown/images/MySQL修改数据过程.png)
+    	2. ![MySQL修改数据过程](../images/MySQL修改数据过程.png)
 	7. MySQL中的事务
     	1. MySQL提供两种事务引擎Innodb 和NDB cluster
 
