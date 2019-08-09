@@ -23,4 +23,4 @@
 
 4. 未使用的索引information_schame.index_statistics 可以查询索引的使用频率
 
-5. 索引的explain extra 的using where 的意思是 mysql服务器是将存储引擎返回行以后才使用where条件过滤的
+5. 索引的explain extra 的using where **的意思是 mysql服务器是将存储引擎返回行以后才使用where条件过滤的**
