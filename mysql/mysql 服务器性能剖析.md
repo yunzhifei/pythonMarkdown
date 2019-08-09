@@ -6,5 +6,4 @@
      - show profiles 默认关闭可以链接动态修改的
      - show status 
      - 检查慢查询日志
-	3. 
-
+ 	3. 
