@@ -58,4 +58,18 @@
    3. 官方策略 按库分发
    4. 5.7 同时处于 prepare 状态的事务，在备库执行时是可以并行的；处于 prepare 状态的事务，与处于 commit 状态的事务之间，在备库执行时也是可以并行的。
 
-3. 
+3. 5.7以后的可以基于 WRITESET 的并行复制。
+
+   binlog-transaction-dependency-tracking，用来控制是否启用这个新策略。这个参数的可选值有以下三种。
+
+   1. COMMIT_ORDER，表示的就是前面介绍的，根据同时进入 prepare 和 commit 来判断是否可以并行的策略。
+   2. WRITESET，表示的是对于事务涉及更新的每一行，计算出这一行的 hash 值，组成集合 writeset。如果两个事务没有操作相同的行，也就是说它们的 writeset 没有交集，就可以并行。
+   3.  WRITESET_SESSION，是在 WRITESET 的基础上多了一个约束，即在主库上同一个线程先后执行的两个事务，在备库执行的时候，要保证相同的先后顺序。
+
+
+
+
+
+# 主备切换的时候怎么切换
+
+​	1. 基于GTID来切换全局事务ID。组成是由server_uuid 和事务ID
