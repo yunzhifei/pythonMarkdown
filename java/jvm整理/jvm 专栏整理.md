@@ -94,6 +94,7 @@ Tomcat 打破了双亲委派模型，自己的web应用有底层加载器直接�
    3. XX:CMSInitiatingOccupancyFaction cms的垃圾回收参数，超过这个比例开始老年代回收，默认是92%
 3. 老年代的GC算法
    1. 标记整理算法 标记以后清除垃圾对象，是否需要整理可以设置一个参数。可以多次回收进行一次整理，也可以每次都整理
+   2. UseCMSCompactAtFullCollection cms是否需要full gc以后整理碎片 CMSFullGCsBeforeCompaction 多少次full gc以后整理一次碎片默认是0每次都整理
 
 
 
@@ -104,6 +105,14 @@ Tomcat 打破了双亲委派模型，自己的web应用有底层加载器直接�
 3. parnew 是回收新生代的多线程垃圾回收器
 4. cms是回收老年代的多线程垃圾回收器。
 5. G1收集器统一回收新生代和老年代的垃圾回收器
+
+
+
+“-XX:+CMSParallelInitialMarkEnabled 初始标记是否多线程并发执行 可以减少初始标记的时间 从而降低 这个stw的时间
+
+-XX:+CMSScavengeBeforeRemark 重新标记之前进行young gc 可以减少重新标记的时间
+
+
 
 
 

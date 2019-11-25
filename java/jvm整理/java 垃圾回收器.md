@@ -49,6 +49,7 @@
    2. -XX:G1HeapRegionSize 这个可以指定region的大小，刚开始的时候默认新生代有5%的region
    3. “-XX:G1NewSizePercent 这个可以设置开始的新生代的region的比例一般默认即可，**新生代最多不会超过60% -XX:G1MaxNewSizePercent 这个可用于设置最大的比例。这个比例是动态的**
    4. G1收集器中的新生代老年代和**Eden以及survivor都是存在的只是不同的region而已。**
+   
 5. G1的新生代垃圾回收是等新生代的region占比达到百分之六十或者是设定的值，而且Eden区已经满了，才发生的垃圾回收。**-XX:MaxGCPauseMills 这个可以用来设置目标的停顿时间**
    6. 大对象region，一个对象只要超过一个region的一半就会放置到大对象region中。一个大对象是可以跨region存放的。在新生代和老年代回收的时候，都会顺带着回收大对象的region
 
@@ -57,6 +58,7 @@
    ## G1回收器的回收过程
 
    1. “-XX:InitiatingHeapOccupancyPercent” 这个可以设置老年代达到这个比例的时候发生新生代和老年代的混合回收。默认是45%
+   
 2. 回收步骤如下:
       1. 初始标记（标记gc roots） stw
       2. 并发标记（Gc roots 追踪）
@@ -65,6 +67,22 @@
    3. 混合回收失败以后的 full gc，因为混合回收都是复制算法，所以需要有空闲的region，来存放存活的对象，如果没有空闲的region了就失败了。一旦失败就立刻切换为单线程回收，并停止程序。
    
    
+   
+   ## 垃圾回收的名词解释
+   
+   1. Minor GC、Young GC 都是年轻代GC
+   2. **Full GC？Old GC？**  都是老年代GC
+   3. **Full GC** 指的是针对新生代、老年代、永久代的全体内存空间的垃圾回收，所以称之为Full GC
+   4. **Major GC** 有人说是和full gc 等价的
+   5. **Mixed GC** 是G1收集器的特有混合GC的方式
+   
+   
+   
+    **G1 Java垃圾收集器更适用于大内存机器**，因为设置的预期的垃圾收集性能。可以只回收一部分eden。young gc的问题并不大，但是如果内存很大的话，就是容易停顿时间过长。
+   
+   
+   
+   在垃圾收集的时候，如果survivor区放不下对应的存活对象，可能会一部分进入老年代，一部分进入survivor的。
    
    
    
