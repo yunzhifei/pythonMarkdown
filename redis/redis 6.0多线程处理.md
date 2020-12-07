@@ -7,4 +7,3 @@ redis 6.0多线程处理
 
 5. 6.0的redis并没有多线程的并发问题
 6. todo memcached 的多线程模型
-7. 
